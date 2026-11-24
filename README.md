@@ -28,6 +28,7 @@ npm run dev
 ```
 
 Open the local URL printed by Vite. The npm scripts use the project-local Vite, TypeScript, and ESLint binaries and work on Windows, macOS, and Linux.
+Open the local URL printed by Vite. The npm scripts call the locally installed Vite, TypeScript, and ESLint binaries, so they work on Windows, macOS, and Linux (including CI and Netlify builds).
 
 ## Available scripts
 
