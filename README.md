@@ -27,7 +27,7 @@ Copy-Item .env.example .env
 npm run dev
 ```
 
-Open the local URL printed by Vite. The project includes Windows command wrappers in `scripts/`, so the npm scripts work without a globally installed Vite, TypeScript, or ESLint executable.
+Open the local URL printed by Vite. The npm scripts call the locally installed Vite, TypeScript, and ESLint binaries, so they work on Windows, macOS, and Linux (including CI and Netlify builds).
 
 ## Available scripts
 
@@ -54,10 +54,6 @@ public/
   profile.svg            Optional profile asset currently not referenced by the app
   robots.txt             Crawler rules
   sitemap.xml            Sitemap with the deployed site URL
-scripts/
-  vite.cmd               Windows wrapper for Vite
-  build.cmd              TypeScript build followed by Vite build
-  lint.cmd               Windows wrapper for ESLint
 ```
 
 ## Customize the portfolio
