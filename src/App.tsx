@@ -1,6 +1,5 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import Lenis from "lenis";
-import emailjs from "@emailjs/browser";
 import { Helmet } from "react-helmet-async";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { useForm } from "react-hook-form";
@@ -60,7 +59,9 @@ export default function App() {
   const [menu, setMenu] = useState(false);
   const [filter, setFilter] = useState("All");
   const [sent, setSent] = useState(false);
-  const siteUrl = import.meta.env.VITE_SITE_URL || "https://your-domain.com";
+  const siteUrl = import.meta.env.VITE_SITE_URL || "https://parthiv.qd.je/";
+  const contactEmail =
+    import.meta.env.VITE_CONTACT_EMAIL || "uysvh56bscf5@mail.dpdns.org";
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30 });
   const filtered = useMemo(
@@ -85,24 +86,39 @@ export default function App() {
     };
   }, []);
   async function submit(values: ContactForm) {
-    const {
-      VITE_EMAILJS_SERVICE_ID: service,
-      VITE_EMAILJS_TEMPLATE_ID: template,
-      VITE_EMAILJS_PUBLIC_KEY: key,
-    } = import.meta.env;
-    if (!service || !template || !key) {
-      setSent(true);
-      form.reset();
-      toast.success("Message ready — add your EmailJS keys to send it.");
+    const subject = `Portfolio message from ${values.name}`;
+    const body = `Name: ${values.name}\nReply-to: ${values.email}\n\n${values.message}`;
+    const payload = new URLSearchParams({
+      "form-name": "contact",
+      name: values.name,
+      email: values.email,
+      message: values.message,
+    });
+    const openMailFallback = () => {
+      window.open(
+        `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`,
+        "_self",
+      );
+      toast("Your email app was opened as a fallback.");
+    };
+
+    if (import.meta.env.DEV) {
+      openMailFallback();
       return;
     }
+
     try {
-      await emailjs.send(service, template, values, { publicKey: key });
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: payload.toString(),
+      });
+      if (!response.ok) throw new Error("Netlify Forms is unavailable");
       setSent(true);
       form.reset();
-      toast.success("Thanks — your message is on its way.");
+      toast.success("Thanks — your message has been received.");
     } catch {
-      toast.error("Could not send that message. Please try email instead.");
+      openMailFallback();
     }
   }
   const scrollTo = (id: string) => {
@@ -244,7 +260,7 @@ export default function App() {
             >
               <Instagram size={20} />
             </a>
-            <a href={`mailto:${profile.email}`} aria-label="Email">
+            <a href={`mailto:${contactEmail}`} aria-label="Email">
               <Mail size={20} />
             </a>
           </div>
@@ -451,8 +467,8 @@ export default function App() {
                   Have a role, an idea, or just a good problem to solve? I’d
                   love to hear from you.
                 </p>
-                <a className="email-link" href={`mailto:${profile.email}`}>
-                  {profile.email} <ArrowUpRight />
+                <a className="email-link" href={`mailto:${contactEmail}`}>
+                  {contactEmail} <ArrowUpRight />
                 </a>
                 <div className="github-stat">
                   <Github size={22} />

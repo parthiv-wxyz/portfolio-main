@@ -4,13 +4,12 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "scripts\\vite.cmd",
-    "build": "scripts\\build.cmd",
-    "preview": "scripts\\vite.cmd preview",
-    "lint": "scripts\\lint.cmd"
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "lint": "eslint ."
   },
   "dependencies": {
-    "@emailjs/browser": "^5.0.3",
     "@eslint/js": "^10.0.1",
     "@hookform/resolvers": "^7.0.9",
     "@vercel/analytics": "^2.0.1",

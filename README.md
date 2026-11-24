@@ -10,7 +10,7 @@ A single-page personal portfolio for Parthiv Prakash, built with React 19, TypeS
 - Framer Motion entrance, scroll, and project-filter animations.
 - Project filtering by Web, Machine Learning, and AI.
 - Contact form validation with React Hook Form and Zod.
-- Optional EmailJS delivery with a graceful local confirmation when EmailJS is not configured.
+- Netlify Forms contact delivery, with a `mailto:` fallback to the DigitalPlat Mail Relay address.
 - SEO metadata, canonical URL, Open Graph/Twitter tags, and Person JSON-LD via React Helmet.
 - Vercel Analytics and Speed Insights components included in the app.
 
@@ -27,7 +27,7 @@ Copy-Item .env.example .env
 npm run dev
 ```
 
-Open the local URL printed by Vite. The project includes Windows command wrappers in `scripts/`, so the npm scripts work without a globally installed Vite, TypeScript, or ESLint executable.
+Open the local URL printed by Vite. The npm scripts use the project-local Vite, TypeScript, and ESLint binaries and work on Windows, macOS, and Linux.
 
 ## Available scripts
 
@@ -54,10 +54,6 @@ public/
   profile.svg            Optional profile asset currently not referenced by the app
   robots.txt             Crawler rules
   sitemap.xml            Sitemap with the deployed site URL
-scripts/
-  vite.cmd               Windows wrapper for Vite
-  build.cmd              TypeScript build followed by Vite build
-  lint.cmd               Windows wrapper for ESLint
 ```
 
 ## Customize the portfolio
@@ -77,15 +73,11 @@ The About section currently contains a few presentation-specific details in [`sr
 Copy `.env.example` to `.env` for local development:
 
 ```env
-VITE_SITE_URL=https://your-domain.com
-VITE_EMAILJS_SERVICE_ID=your-service-id
-VITE_EMAILJS_TEMPLATE_ID=your-template-id
-VITE_EMAILJS_PUBLIC_KEY=your-public-key
+VITE_SITE_URL=https://parthiv.qd.je/
+VITE_CONTACT_EMAIL=uysvh56bscf5@mail.dpdns.org
 ```
 
-`VITE_SITE_URL` is used for the canonical URL and social metadata. Update the URL in `public/sitemap.xml` as well. The three EmailJS values are optional during development; without all three, submitting the form only shows a local success message and does not send an email.
-
-When EmailJS is enabled, configure the template to accept the fields `name`, `email`, and `message`. Vite exposes `VITE_*` values to the browser, so only use the EmailJS public key here—never put private credentials in this file.
+`VITE_SITE_URL` is used for the canonical URL and social metadata. Update the URL in `public/sitemap.xml` as well. `VITE_CONTACT_EMAIL` is the DigitalPlat Mail Relay address used by the fallback email link. On Netlify, configure a form notification for the form named `contact` and set its recipient to the relay address. No SMTP credentials are exposed in the browser.
 
 ## Build and deploy
 
@@ -98,6 +90,10 @@ npm run preview
 ```
 
 The generated site is in `dist/`. It can be deployed to Vercel or another static hosting provider that supports a Vite build. Set the same public environment variables in the hosting provider's project settings, and use the production domain for both `VITE_SITE_URL` and `public/sitemap.xml`.
+
+### Netlify
+
+Netlify is configured by [`netlify.toml`](netlify.toml) to run `npm run build` and publish `dist/`. No PHP, Composer, Jigsaw, or Neon setup is required for this project.
 
 ## Notes
 

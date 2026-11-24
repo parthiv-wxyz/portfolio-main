@@ -4,7 +4,7 @@ import { Brain, Braces, Database, Server, Wrench } from "lucide-react";
 export const profile = {
   name: "Parthiv Prakash",
   role: "Full-stack developer & ML enthusiast",
-  email: "pparthivprakash1@gmail.com",
+  email: "uysvh56bscf5@mail.dpdns.org",
   location: "India",
   bio: "I design and ship thoughtful digital products, bridging reliable software engineering with practical machine learning.",
   objective:
