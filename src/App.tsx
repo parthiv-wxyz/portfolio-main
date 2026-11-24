@@ -34,6 +34,7 @@ import {
   socials,
 } from "./data/portfolio";
 import { useTheme } from "./hooks/useTheme";
+import resumePdf from "./resume/resume.pdf";
 
 const Section = lazy(() =>
   import("./components/Section").then((module) => ({
@@ -225,7 +226,7 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <a className="button primary" href="/resume.pdf" download>
+            <a className="button primary" href={resumePdf} download="parthiv.pdf">
               <Download size={17} /> Download résumé
             </a>
             <button
